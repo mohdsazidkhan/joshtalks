@@ -1,13 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 function Final() {
+  const { state } = useLocation();
   const userAnswers = useSelector(state => state.userAnswers);
-
   return (
     <div className='bg-gray-900 h-full flex flex-col px-4 md:px-60 py-5'>
       <div className='text-white text-2xl mb-5 font-bold'>
-        Quiz Report
+        Quiz Report : {' '} {state.score +' out of '+ userAnswers?.length}
       </div>
       {userAnswers?.map((item,index)=>
         <div className='mb-3' key={index}>

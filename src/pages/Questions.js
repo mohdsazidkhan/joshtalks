@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Questions() {
@@ -15,6 +15,8 @@ const dispatch = useDispatch()
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [minutes, setMinutes] = useState(30);
   const [seconds, setSeconds] = useState(0);
+  const [visitedQues, setVisitedQues] = useState([0]);
+  const [attemptedQues, setAttemtedQues] = useState([0]);
   
   const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
@@ -24,10 +26,10 @@ const dispatch = useDispatch()
     e.preventDefault();
     setAnswerSelected(true);
     setSelectedAnswer(item);
+    setAttemtedQues([...attemptedQues, currentIndex])
     dispatch({ type: "ADD_ANSWER", payload: {question: activeQues?.question, userAns: item, correctAns: activeQues?.correct_answer}});
-    
-    if (item === activeQues?.correct_answer) {
-      setScore((prevState)=> prevState+1);
+    if (item.toLowerCase() === activeQues?.correct_answer.toLowerCase()) {
+      setScore(score+1);
     }
     if (currentIndex + 1 <= questions.length) {
       setTimeout(() => {
@@ -43,14 +45,20 @@ const dispatch = useDispatch()
         }
       }, 1000);
     }
+    
     if(currentIndex+1 === questions.length){
-        navigate('/report')
+      navigate('/report', {
+        state: {
+          score
+        }
+      })
     }
   };
-
+  
   const handleNumber = (e, numberIndex) => {
     let newIndex = Number(numberIndex);
     setCurrentIndex(newIndex);
+    setVisitedQues([...visitedQues, newIndex])
     let aQues = questions.filter((item) => questions.indexOf(item) === newIndex);
     setActiveQues(...aQues);
     let answers = [...aQues[0]?.incorrect_answers];
@@ -122,9 +130,7 @@ const dispatch = useDispatch()
         <div className="questionNo">
           {Object.keys(questions)?.map((item, index) => (
             <div
-              className={`text-white number ${
-                index === currentIndex ? "active" : ""
-              }`}
+              className={`text-white number ${index === currentIndex ? "active" : "" || visitedQues?.includes(index) ? "visited" : "" || attemptedQues?.includes(index) ? "attempted visited" : ""}`}
               key={item}
               onClick={(e) => handleNumber(e, index)}
             >

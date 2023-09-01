@@ -13,17 +13,17 @@
 }
 .number{
     padding: 10px;
-    background-color: #00194e;
     border-radius: 4px;
     text-align: center;
-    font-size: 25px;
+    font-size: 24px;
     margin: 5px;
-    width: 64px;
-    height: 64px;
+    width: 60px;
+    height: 60px;
     cursor: pointer;
+    border: 1px solid rgb(255 255 255 / 17%);
 }
 .number.active{
-    background-color: rgb(0, 206, 79);
+    background-color: rgb(0, 14, 206);
     cursor: default;
 }
 .question{
@@ -55,17 +55,16 @@
     width: calc(100% - 250px);
 }
 
-li:hover {
-    background-color: #772139;
-    color: white;
-}
-
 li.correct {
     background-color: rgb(53, 212, 53);
 }
 
 .number.visited{
-    background-color: rgb(0, 110, 255);
+    background-color: #00194e;
+}
+
+.number.attempted{
+    background-color: #24ac03;
 }
 
 li.selected:not(correct) {
@@ -89,10 +88,10 @@ li.selected:not(correct) {
         overflow-x: auto;
     }
     .number {
-        padding: 10px 20px;
+        padding: 5px 15px;
         font-size: 20px;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     }
     .timer {
         width: 64px;
@@ -100,5 +99,9 @@ li.selected:not(correct) {
         position: fixed;
         right: 20px;
         bottom: 20px;
+    }
+    .options li {
+        font-size: 14px;
+        margin: 10px 0px;
     }
 }

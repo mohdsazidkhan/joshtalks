@@ -6,14 +6,23 @@ function Start() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handleSubmit = () => {
-    localStorage.setItem("email", email);
-    navigate("/questions");
+    if(email !== ""){
+      localStorage.setItem("email", email);
+      navigate("/questions");
+    }else{
+      setMessage('Please Enter Email Address');
+      setTimeout(()=>{
+        setMessage('');
+      },3000)
+      
+    }
   };
 
   return (
@@ -23,7 +32,7 @@ function Start() {
           Start the Quiz
         </h2>
         <p className="mt-4 text-lg leading-8 text-gray-300">
-          Please enter your email address
+          Email address
         </p>
         <div className="mt-4 flex max-w-md gap-x-4 flex-col">
           <label htmlFor="email-address" className="sr-only">
@@ -40,6 +49,7 @@ function Start() {
             className="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
             placeholder="Enter your email"
           />
+          <div className="text-red-500 mt-1">{message}</div>
           <div className="mt-4 text-center">
             <button
               type="submit"
